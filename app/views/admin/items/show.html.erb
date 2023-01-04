@@ -1,0 +1,102 @@
+
+<body>
+
+    <header>
+      <nav>
+        <ul>
+          <li class=”current”>
+            <%= link_to admin_items_path do %>
+              商品一覧
+            <% end %>
+          </li>
+          <li>
+            <%= link_to admin_customers_path do %>
+              会員一覧
+            <% end %>
+          </li>
+          <li>
+            <%= link_to admin_path do %>
+              注文履歴一覧
+            <% end %>
+          </li>
+          <li>
+            <%= link_to admin_genres_path do %>
+              ジャンル一覧
+            <% end %>
+          </li>
+          <% if admin_signed_in? %>
+            <li>
+              <%= link_to "ログアウト", destroy_admin_session_path, method: :delete %>
+            </li>
+            <% else %>
+            <li>
+              <%= link_to "ログイン", new_admin_session_path %>
+            </li>
+            <% end %>
+        </ul>
+      </nav>
+
+      <form class="search-container">
+        <input type="text" id="search-bar" placeholder="Search">
+          <a href="#"><img class="search-icon" src="http://www.endlessicons.com/wp-content/uploads/2012/12/search-icon.png"></a>
+      </form>
+
+    </header>
+
+    <main>
+    <div class="container">
+      <div class="row">
+        <h4>商品詳細</h4>
+      </div>
+      <div class="row">
+        <div class="col-lg-5">
+          <% if @item.image.attached? %>
+            <%= image_tag @item.image, size:"300x300" %>
+          <% else %>
+            <%= image_tag 'no_image', size:"300x300" %>
+          <% end %>
+        </div>
+
+        <div class="col-lg-7">
+        <table style="writing-mode:vertical-lr;width:600px;height:300px;margin:20px 0 20px 0">
+          <thead style="width:200px;background-color:white;">
+            <tr>
+              <th style="writing-mode:horizontal-tb;">商品名</th>
+              <th style="writing-mode:horizontal-tb;">商品説明</th>
+              <th style="writing-mode:horizontal-tb;">ジャンル</th>
+              <th style="writing-mode:horizontal-tb;">税込価格<br>(税抜価格)</th>
+              <th style="writing-mode:horizontal-tb;">販売ステータス</th>
+            </tr>
+          </thead>
+
+          <tbody style="width:300px;">
+            <tr>
+              <td style="writing-mode:horizontal-tb;"><%= @item.name %></td>
+              <td style="writing-mode:horizontal-tb;"><%= @item.introduction %></td>
+              <td style="writing-mode:horizontal-tb;"><%= @item.genre.name %></td>
+              <td style="writing-mode:horizontal-tb;">
+                <%= (@item.price * 1.1).floor %> &nbsp; (<%= @item.price %>) &nbsp; 円
+              </td>
+              <td style="writing-mode:horizontal-tb;">
+                <% if @item.is_active == true %>
+                  <p>販売中</p>
+                <% else %>
+                  <p>販売停止中</p>
+                <% end %>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+          <%= link_to "編集する" , edit_admin_item_path(@item.id) ,class:'btn btn-outline-primary' %>
+        </div>
+
+      </div>
+    </div>
+    </main>
+
+    <footer>
+
+    </footer>
+
+  </body>

@@ -1,0 +1,79 @@
+<header>
+      <nav>
+        <ul>
+          <li class=”current”>
+            <%= link_to customers_mypage_path do %>
+              マイページ
+            <% end %>
+          </li>
+          <li>
+            <%= link_to items_path do %>
+              商品一覧
+            <% end %>
+          </li>
+          <li>
+            <%= link_to cart_items_path do %>
+              カート
+            <% end %>
+          </li>
+          <% if customer_signed_in? %>
+            <li>
+              <%= link_to "ログアウト", destroy_customer_session_path, method: :delete %>
+            </li>
+            <% else %>
+            <li>
+              <%= link_to "ログイン", new_customer_session_path %>
+            </li>
+            <% end %>
+          
+        </ul>
+      </nav>
+
+      <form class="search-container">
+        <input type="text" id="search-bar" placeholder="Search">
+          <a href="#"><img class="search-icon" src="http://www.endlessicons.com/wp-content/uploads/2012/12/search-icon.png"></a>
+      </form>
+
+    </header>
+
+    <main>
+
+      <h4>配送先登録・一覧</h4>
+
+      <%= form_with model:@address, url:'/addresses' do |f| %>
+        <p>郵便番号（ハイフンなし）</p>
+        <%= f.text_field :postal_code, placeholder:"0000000" %>
+        <p style="margin-top:10px;">住所</p>
+        <%= f.text_field :address, placeholder:"東京都渋谷区代々木神園町0-0" %>
+        <p style="margin-top:10px;">宛名</p>
+        <%= f.text_field :name, placeholder:"令和道子" %>
+        <%= f.submit '新規登録' ,class:'btn btn-outline-success' %>
+
+      <% end %>
+
+      <table style="margin-top:30px;width:1000px;">
+        <thead>
+          <tr>
+            <th>郵便番号</th>
+            <th>住所</th>
+            <th>宛名</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+        <% @addresses.each do |addresses| %>
+          <tr>
+            <td><%= addresses.postal_code %></td>
+            <td><%= addresses.address %></td>
+            <td><%= addresses.name %></td>
+            <td>
+              <%= link_to "編集する" , edit_address_path(addresses.id) ,class:'btn btn-outline-primary' %>
+              <%= link_to "削除する" , address_path(addresses), class:'btn btn-outline-danger' , method: :delete %>
+            </td>
+          </tr>
+        <% end %>
+        </tbody>
+       </table>
+
+
+    </main>

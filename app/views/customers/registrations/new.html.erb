@@ -1,0 +1,88 @@
+<header>
+      <nav>
+        <ul>
+          <li>
+            <%= link_to about_path do %>
+              About
+            <% end %>
+          </li>
+          <li class=”current”>
+            <%= link_to admin_items_path do %>
+              商品一覧
+            <% end %>
+          </li>
+          <li>
+            <%= link_to new_customer_registration_path do %>
+              新規登録
+            <% end %>
+          </li>
+          <li>
+            <%= link_to "ログイン", new_customer_session_path %>
+          </li>
+        </ul>
+      </nav>
+
+      <form class="search-container">
+        <input type="text" id="search-bar" placeholder="Search">
+          <a href="#"><img class="search-icon" src="http://www.endlessicons.com/wp-content/uploads/2012/12/search-icon.png"></a>
+      </form>
+
+    </header>
+
+    <main>
+      <h4>新規会員登録</h4>
+        <br>
+        <br>
+        <%= form_with model: @customer, url: customer_registration_path do |f| %>
+          <%= render "customers/shared/error_messages", resource: resource %>
+
+          <table style="writing-mode:vertical-lr;">
+            <thead style="background-color:white;">
+              <tr>
+                <th style="writing-mode:horizontal-tb;font-weight:300;"><%= f.label :名前 %></th>
+                <th style="writing-mode:horizontal-tb;font-weight:300;"><%= f.label :フリガナ %></th>
+                <th style="writing-mode:horizontal-tb;font-weight:300;"><%= f.label :メールアドレス %></th>
+                <th style="writing-mode:horizontal-tb;font-weight:300;"><%= f.label :郵便番号（ハイフンなし） %></th>
+                <th style="writing-mode:horizontal-tb;font-weight:300;"><%= f.label :住所（ハイフンなし） %></th>
+                <th style="writing-mode:horizontal-tb;font-weight:300;"><%= f.label :電話番号 %></th>
+                <th style="writing-mode:horizontal-tb;font-weight:300;"><%= f.label :パスワード（６文字以上） %></th>
+                <th style="writing-mode:horizontal-tb;font-weight:300;"><%= f.label :パスワード（確認用） %></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="writing-mode:horizontal-tb;">
+                  <%= f.label :（姓） %>&emsp;
+                  <%= f.text_field :last_name, autofocus: true, autocomplete: "last_name", placeholder:"令和" %>
+                  <%= f.label :（名） %>&emsp;
+                  <%= f.text_field :first_name, autofocus: true, autocomplete: "first_name", placeholder:"道子" %>
+                </td>
+                <td style="writing-mode:horizontal-tb;">
+                  <%= f.label :（セイ） %>
+                  <%= f.text_field :last_name_kana, autofocus: true, autocomplete: "last_name_kana", placeholder:"レイワ" %>
+                  <%= f.label :（メイ） %>
+                  <%= f.text_field :first_name_kana, autofocus: true, autocomplete: "first_name_kana", placeholder:"ミチコ" %>
+                </td>
+                <td style="writing-mode:horizontal-tb;">&emsp;&emsp;&emsp;&emsp;&nbsp;<%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder:"sample@example.com" %></td>
+                <td style="writing-mode:horizontal-tb;">&emsp;&emsp;&emsp;&emsp;&nbsp;<%= f.text_field :postal_code, autofocus: true, autocomplete: "postal_code", placeholder:"0000000" %></td>
+                <td style="writing-mode:horizontal-tb;">&emsp;&emsp;&emsp;&emsp;&nbsp;<%= f.text_field :address, autofocus: true, autocomplete: "address", style:"width:445px;", placeholder:"東京都渋谷区代々木神園0-0" %></td>
+                <td style="writing-mode:horizontal-tb;">&emsp;&emsp;&emsp;&emsp;&nbsp;<%= f.text_field :telephone_number, autofocus: true, autocomplete: "telephone_number", placeholder:"00000000000" %></td>
+                <td style="writing-mode:horizontal-tb;">&emsp;&emsp;&emsp;&emsp;&nbsp;<%= f.password_field :password, autocomplete: "new-password" %></td>
+                <td style="writing-mode:horizontal-tb;">&emsp;&emsp;&emsp;&emsp;&nbsp;<%= f.password_field :password_confirmation, autocomplete: "new-password" %></td>
+                <td><%= f.submit "新規登録", class:'btn btn-outline-success', style:'width:185px;margin-left:-200px;margin-top:10px;' %></td>
+              </tr>
+            </tbody>
+          </table>
+
+        <% end %>
+
+        <h4>既に登録済みの方</h4>
+        <p><%= link_to "こちら", new_customer_session_path %>からログインしてください</p>
+
+
+    </main>
+
+
+
+

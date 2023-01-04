@@ -1,0 +1,60 @@
+
+<header>
+      <nav>
+        <ul>
+          <li class=”current”>
+            <%= link_to customers_mypage_path do %>
+              マイページ
+            <% end %>
+          </li>
+          <li>
+            <%= link_to items_path do %>
+               商品一覧
+            <% end %>
+          </li>
+          <li>
+            <%= link_to cart_items_path do %>
+              カート
+            <% end %>
+          </li>
+          <% if customer_signed_in? %>
+            <li>
+              <%= link_to "ログアウト", destroy_customer_session_path, method: :delete %>
+            </li>
+            <% else %>
+            <li>
+              <%= link_to "ログイン", new_customer_session_path %>
+            </li>
+            <% end %>
+          
+        </ul>
+      </nav>
+
+      <form class="search-container">
+        <input type="text" id="search-bar" placeholder="Search">
+          <a href="#"><img class="search-icon" src="http://www.endlessicons.com/wp-content/uploads/2012/12/search-icon.png"></a>
+      </form>
+
+    </header>
+
+    <main>
+        <div style="margin:100px 0 0 250px;">
+            <h3 style="font-weight:900;">本当に退会しますか？</h3>
+            <p style="font-weight:500;font-size:18px;">
+                退会すると、会員登録情報や<br>
+                これまでの購入履歴が閲覧できなくなります。<br>
+                退会する場合は、「退会する」をクリックしてください。
+            </p>
+            
+            <%= link_to "退会しない" , customers_mypage_path, class:'btn btn-outline-secondary', style:'width:185px;margin-left:68px;' %>
+            <%= link_to "退会する" , customers_unsubscribe_path(@customer), class:'btn btn-outline-danger',style:'width:185px;margin-left:68px;' , method: :patch %>
+
+
+
+            
+        </div>
+    </main>
+
+    <footer>
+
+    </footer>

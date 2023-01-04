@@ -1,0 +1,72 @@
+<header>
+      <nav>
+        <ul>
+          <li>
+            <%= link_to about_path do %>
+              About
+            <% end %>
+          </li>
+          <li class=”current”>
+            <%= link_to admin_items_path do %>
+              商品一覧
+            <% end %>
+          </li>
+          <li>
+            <%= link_to new_customer_registration_path do %>
+              新規登録
+            <% end %>
+          </li>
+          <li>
+            <%= link_to "ログイン", new_customer_session_path %>
+          </li>
+        </ul>
+      </nav>
+
+      <form class="search-container">
+        <input type="text" id="search-bar" placeholder="Search">
+          <a href="#"><img class="search-icon" src="http://www.endlessicons.com/wp-content/uploads/2012/12/search-icon.png"></a>
+      </form>
+
+    </header>
+
+    <main>
+      <h4>ログイン</h4>
+
+      <%= form_with model: @customer, url: customer_session_path do |f| %>
+
+      <table style="writing-mode:vertical-lr;">
+            <thead style="background-color:white;">
+              <tr>
+                <th style="writing-mode:horizontal-tb;font-weight:300;"><%= f.label :メールアドレス %></th>
+                <th style="writing-mode:horizontal-tb;font-weight:300;"><%= f.label :パスワード %></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="writing-mode:horizontal-tb;">&emsp;&emsp;
+                  <%= f.email_field :email, autofocus: true, autocomplete: "email", style:"width:250px;", placeholder:"sample@example.com" %>
+                </td>
+                <td style="writing-mode:horizontal-tb;">&emsp;&emsp;
+                  <%= f.password_field :password, autocomplete: "current-password", style:"width:250px;" %>
+                </td>
+                <td style="writing-mode:horizontal-tb;">&emsp;&emsp;
+                  <%= f.submit "ログイン", class:'btn btn-outline-success', style:"margin-left:0px;margin-top:10px;" %>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+      <% end %>
+
+      <h4 style="margin-top:50px;">会員登録がお済みでない方</h4>
+      <p><%= link_to "こちら", new_customer_registration_path %>から新規登録を行ってください</p>
+
+    </main>
+
+
+
+
+
+
+

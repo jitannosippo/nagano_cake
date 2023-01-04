@@ -1,0 +1,86 @@
+
+<body>
+
+    <header>
+      <nav>
+        <ul>
+          <li class=”current”>
+            <%= link_to admin_items_path do %>
+              商品一覧
+            <% end %>
+          </li>
+          <li>
+            <%= link_to admin_customers_path do %>
+              会員一覧
+            <% end %>
+          </li>
+          <li>
+            <%= link_to admin_path do %>
+              注文履歴一覧
+            <% end %>
+          </li>
+          <li>
+            <%= link_to admin_genres_path do %>
+              ジャンル一覧
+            <% end %>
+          </li>
+          <% if admin_signed_in? %>
+            <li>
+              <%= link_to "ログアウト", destroy_admin_session_path, method: :delete %>
+            </li>
+            <% else %>
+            <li>
+              <%= link_to "ログイン", new_admin_session_path %>
+            </li>
+            <% end %>
+        </ul>
+      </nav>
+
+      <form class="search-container">
+        <input type="text" id="search-bar" placeholder="Search">
+          <a href="#"><img class="search-icon" src="http://www.endlessicons.com/wp-content/uploads/2012/12/search-icon.png"></a>
+      </form>
+
+    </header>
+
+    <main>
+       <div class="container">
+      <div class="row">
+      <h4>商品編集</h4>
+
+      <div class="left">
+
+      <%= form_with model:@item, url:admin_item_path(@item.id), method: :patch do |f| %>
+
+        <p>商品画像</p>
+        <%= f.file_field :image, accept:"image/*" %>
+        <p>商品名</p>
+        <%= f.text_field :name, style:"width:250px; height:30px;" %>
+        <p>商品説明</p>
+        <%= f.text_area :introduction, style:"width:250px; height:170px;" %>
+
+      </div>
+      <div class="right">
+
+        <p>ジャンル</p>
+        <%= f.select :genre_id, Genre.all.map{ |genre| [genre.name, genre.id] } %>
+        <p>税抜価格</p>
+        <%= f.text_field :price %><span>円</span>
+        <p>販売ステータス</p>
+        <%= f.radio_button :is_active, :true %><span>販売中&thinsp;&thinsp;&thinsp;&thinsp;&thinsp;&thinsp;</span>
+        <%= f.radio_button :is_active, :false %><span>販売停止中</span>
+        <br>
+        <br>
+        <br>
+        <%= f.submit '変更を保存' ,class:'btn btn-outline-success' %>
+
+      <% end %>
+    </div>
+    </div>
+    </main>
+
+    <footer>
+
+    </footer>
+
+  </body>

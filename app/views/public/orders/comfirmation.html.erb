@@ -1,0 +1,112 @@
+<header>
+      <nav>
+        <ul>
+          <li class=”current”>
+            <%= link_to customers_mypage_path do %>
+              マイページ
+            <% end %>
+          </li>
+          <li>
+            <%= link_to items_path do %>
+              商品一覧
+            <% end %>
+          </li>
+          <li>
+            <%= link_to cart_items_path do %>
+              カート
+            <% end %>
+          </li>
+          <% if customer_signed_in? %>
+            <li>
+              <%= link_to "ログアウト", destroy_customer_session_path, method: :delete %>
+            </li>
+            <% else %>
+            <li>
+              <%= link_to "ログイン", new_customer_session_path %>
+            </li>
+            <% end %>
+          
+        </ul>
+      </nav>
+
+      <form class="search-container">
+        <input type="text" id="search-bar" placeholder="Search">
+          <a href="#"><img class="search-icon" src="http://www.endlessicons.com/wp-content/uploads/2012/12/search-icon.png"></a>
+      </form>
+
+    </header>
+
+    <main>
+      
+      <h4>注文情報確認</h4>
+      
+      <table class="table table-hover table-inverse">
+        <thead>
+          <tr>
+            <th width="300" style="border:1px solid gray;">商品名</th>
+            <th width="150" style="border:1px solid gray;">単価（税込）</th>
+            <th width="150" style="border:1px solid gray;">数量</th>
+            <th width="150" style="border:1px solid gray;">小計</th>
+          <tr>
+        </thead>
+        <tbody>
+          <% @cart_items.each do |cart_item| %>  
+          <tr>
+            <td width="300" style="border:1px solid gray;"><%= cart_item.item.name %></td>
+            <td width="150" style="border:1px solid gray;"><%= cart_item.item.with_tax_price %></td>
+            <td width="150" style="border:1px solid gray;"><%= cart_item.amount %></td>
+            <td width="150" style="border:1px solid gray;"><%= cart_item.subtotal %></td>
+          </tr>
+          <% @total +=  cart_item.subtotal %>
+          <% end %>
+        </tbody>
+      </table>
+    <div class="row">
+      <div class="col-lg-6">
+        <h6>支払方法</h6>
+        <% if @order.payment_method == "credit_card" %>
+          <h5>クレジットカード</h5>
+        <% end %>
+        <% if @order.payment_method == "transfer" %>
+          <h5>銀行振込</h5>
+        <% end %>
+        <h6 style="margin-top:20px;">お届け先</h6>
+        <h5>
+          <%= @order.postal_code %>
+          <%= @order.address %>
+          <%= @order.name %>
+        </h5>
+        
+      </div>
+      <div class="col-lg-6">
+      <table class="table table-hover table-inverse" style="width:300px;writing-mode:vertical-lr;margin-left:100px;">
+        <thead>
+          <tr>
+            <th width="158" style="border:1px solid gray;writing-mode:horizontal-tb;">送料</th>
+            <th width="158" style="border:1px solid gray;writing-mode:horizontal-tb;">商品合計</th>
+            <th width="158" style="border:1px solid gray;writing-mode:horizontal-tb;">請求金額</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td width="158" style="border:1px solid gray;writing-mode:horizontal-tb;"><%= @order.postage %></td>
+            <td width="158" style="border:1px solid gray;writing-mode:horizontal-tb;"><%= @total %></td>
+            <% @order.total_price = @order.postage + @total %>
+            <td width="158" style="border:1px solid gray;writing-mode:horizontal-tb;"><%= @order.total_price %></td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+    
+    <%= form_with model: @order, url: orders_path, method: :post do |f| %>
+      <%= f.hidden_field :payment_method, value: @order.payment_method %>
+      <%= f.hidden_field :postage, value: @order.postage %>
+      <%= f.hidden_field :postal_code, value: @order.postal_code %>
+      <%= f.hidden_field :address, value: @order.address %>
+      <%= f.hidden_field :name, value: @order.name %>
+      <%= f.hidden_field :total_price, value: @order.total_price %>
+      <%= f.submit '注文を確定する', class:'btn btn-outline-success' %>
+    <% end %>
+    
+    </main>

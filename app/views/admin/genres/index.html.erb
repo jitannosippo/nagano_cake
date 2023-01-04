@@ -1,0 +1,77 @@
+
+
+    <header>
+      <nav>
+        <ul>
+          <li class=”current”>
+            <%= link_to admin_items_path do %>
+              商品一覧
+            <% end %>
+          </li>
+          <li>
+            <%= link_to admin_customers_path do %>
+              会員一覧
+            <% end %>
+          </li>
+          <li>
+            <%= link_to admin_path do %>
+              注文履歴一覧
+            <% end %>
+          </li>
+          <li>
+            <%= link_to admin_genres_path do %>
+              ジャンル一覧
+            <% end %>
+          </li>
+          <% if admin_signed_in? %>
+            <li>
+              <%= link_to "ログアウト", destroy_admin_session_path, method: :delete %>
+            </li>
+            <% else %>
+            <li>
+              <%= link_to "ログイン", new_admin_session_path %>
+            </li>
+            <% end %>
+        </ul>
+      </nav>
+
+      <form class="search-container">
+        <input type="text" id="search-bar" placeholder="Search">
+          <a href="#"><img class="search-icon" src="http://www.endlessicons.com/wp-content/uploads/2012/12/search-icon.png"></a>
+      </form>
+
+    </header>
+
+    <main>
+
+      <h4>ジャンル一覧・追加</h4>
+
+      <%= form_with model:@genre, url:'/admin/genres' do |f| %>
+        <p>ジャンル名</p>
+        <%= f.text_field :name, placeholder:"ジャンル名" %>
+        <%= f.submit '新規登録' ,class:'btn btn-outline-success' %>
+
+      <% end %>
+
+      <table class="-ms-writing-mode:tb-lr; writing-mode:vertical-lr;">
+        <thead>
+          <tr>
+            <th>ジャンル</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+        <% @genres.each do |genres| %>
+          <tr>
+            <td><%= genres.name %></td>
+            <td>
+              <%= link_to "編集する" , edit_admin_genre_path(genres.id) ,class:'btn btn-outline-primary' %>
+            </td>
+          </tr>
+        <% end %>
+        </tbody>
+       </table>
+
+
+    </main>
+

@@ -1,0 +1,90 @@
+
+<header>
+      <nav>
+        <ul>
+          <li class=”current”>
+            <%= link_to admin_items_path do %>
+              商品一覧
+            <% end %>
+          </li>
+          <li>
+            <%= link_to admin_customers_path do %>
+              会員一覧
+            <% end %>
+          </li>
+          <li>
+            <%= link_to admin_path do %>
+              注文履歴一覧
+            <% end %>
+          </li>
+          <li>
+            <%= link_to admin_genres_path do %>
+              ジャンル一覧
+            <% end %>
+          </li>
+          <% if admin_signed_in? %>
+            <li>
+              <%= link_to "ログアウト", destroy_admin_session_path, method: :delete %>
+            </li>
+            <% else %>
+            <li>
+              <%= link_to "ログイン", new_admin_session_path %>
+            </li>
+            <% end %>
+        </ul>
+      </nav>
+
+      <form class="search-container">
+        <input type="text" id="search-bar" placeholder="Search">
+          <a href="#"><img class="search-icon" src="http://www.endlessicons.com/wp-content/uploads/2012/12/search-icon.png"></a>
+      </form>
+
+    </header>
+
+    <main>
+      <h4><%= @customer.last_name %><%= @customer.first_name %>さんの会員情報編集</h4>
+      
+      <table style="writing-mode:vertical-lr;width:600px;height:300px;margin:20px 0 20px 0">
+          <thead style="width:200px;background-color:white;">
+            <tr>
+              <th style="writing-mode:horizontal-tb;">会員ID</th>
+              <th style="writing-mode:horizontal-tb;">氏名</th>
+              <th style="writing-mode:horizontal-tb;">フリガナ</th>
+              <th style="writing-mode:horizontal-tb;">郵便番号</th>
+              <th style="writing-mode:horizontal-tb;">住所</th>
+              <th style="writing-mode:horizontal-tb;">電話番号</th>
+              <th style="writing-mode:horizontal-tb;">メールアドレス</th>
+              <th style="writing-mode:horizontal-tb;">会員ステータス</th>
+              <th style="writing-mode:horizontal-tb;"></th>
+            </tr>
+          </thead>
+
+          <tbody style="width:300px;">
+            <tr>
+              <%= form_with model:@customer, url:admin_customer_path(@customer.id), method: :patch do |f| %>
+              <td style="writing-mode:horizontal-tb;"><%= @customer.id %></td>
+              <td style="writing-mode:horizontal-tb;"><%= f.text_field :last_name, value:@customer.last_name, autofocus:true %><%= f.text_field :first_name, value:@customer.first_name %></td>
+              <td style="writing-mode:horizontal-tb;"><%= f.text_field :last_name_kana, value:@customer.last_name_kana %><%= f.text_field :first_name_kana, value:@customer.first_name %></td>
+              <td style="writing-mode:horizontal-tb;"><%= f.text_field :postal_code, value:@customer.postal_code %></td>
+              <td style="writing-mode:horizontal-tb;"><%= f.text_field :address, value:@customer.address %></td>
+              <td style="writing-mode:horizontal-tb;"><%= f.text_field :telephone_number, value:@customer.telephone_number %></td>
+              <td style="writing-mode:horizontal-tb;"><%= f.text_field :email, value:@customer.email %></td>
+              <td style="writing-mode:horizontal-tb;">
+                <% if @customer.is_deleted == true %>
+                  <p>有効</p>
+                <% else %>
+                  <p>退会</p>
+                <% end %>
+              </td>
+              <td style="writing-mode:horizontal-tb;"><%= f.submit "変更を保存", class:'btn btn-outline-success', style:'width:200px;' %></td>
+              <% end %>
+            </tr>
+          </tbody>
+        </table>
+
+      
+    </main>
+
+    <footer>
+
+    </footer>

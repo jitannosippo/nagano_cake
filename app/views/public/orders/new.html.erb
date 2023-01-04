@@ -1,0 +1,83 @@
+<header>
+      <nav>
+        <ul>
+          <li class=”current”>
+            <%= link_to customers_mypage_path do %>
+              マイページ
+            <% end %>
+          </li>
+          <li>
+            <%= link_to items_path do %>
+              商品一覧
+            <% end %>
+          </li>
+          <li>
+            <%= link_to cart_items_path do %>
+              カート
+            <% end %>
+          </li>
+          <% if customer_signed_in? %>
+            <li>
+              <%= link_to "ログアウト", destroy_customer_session_path, method: :delete %>
+            </li>
+            <% else %>
+            <li>
+              <%= link_to "ログイン", new_customer_session_path %>
+            </li>
+            <% end %>
+          
+        </ul>
+      </nav>
+
+      <form class="search-container">
+        <input type="text" id="search-bar" placeholder="Search">
+          <a href="#"><img class="search-icon" src="http://www.endlessicons.com/wp-content/uploads/2012/12/search-icon.png"></a>
+      </form>
+
+    </header>
+
+    <main style="margin-left:30px;margin-right:30px;width:1100px;">
+        
+        <h4>注文情報入力</h4>
+        <%= form_with model: @order, url: orders_comfirmation_path, method: :post do |f| %>
+        <h5 style="font-weight:800;">支払い方法</h5>
+            <%= f.radio_button :payment_method, Order.payment_methods.key(0) %>
+            <%= f.label :payment_method_credit_card, Order.payment_methods_i18n[:credit_card] %><br>
+            <%= f.radio_button :payment_method, Order.payment_methods.key(1) %>
+            <%= f.label :payment_method_transfer, Order.payment_methods_i18n[:transfer]%>
+        <h5 style="font-weight:800;margin-top:30px;">お届け先</h5>
+            <%= f.radio_button :x, '0' , checkd: "checked" %>
+            <%= f.label :ご自身の住所 %><br>
+            <%= @customer.postal_code %><%= @customer.address %>
+            <br>
+            <br>
+            <%= f.radio_button :x, '1' %>
+            <%= f.label :登録済みの住所から選択 %><br>
+            <%= f.select :address_id, options_from_collection_for_select(Address.all, :id, :address_display) %>
+            <br>
+            <br>
+            <%= f.radio_button :x, '2' %>
+            <%= f.label :新しいお届け先 %><br>
+            <table style="writing-mode:vertical-lr;">
+                <thead>
+                    <tr>
+                        <th style="writing-mode:horizontal-tb;background-color:white;">郵便番号（ハイフンなし）</th>
+                        <th style="writing-mode:horizontal-tb;background-color:white;">住所</th>
+                        <th style="writing-mode:horizontal-tb;background-color:white;">宛名</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="writing-mode:horizontal-tb;"><%= f.text_field :postal_code, placeholder:"0000000" %></td>
+                        <td style="writing-mode:horizontal-tb;"><%= f.text_field :address, placeholder:"東京都渋谷区代々木神園町0-0", style:"width:300px;"%></td>
+                        <td style="writing-mode:horizontal-tb;"><%= f.text_field :name, placeholder:"令和道子" %></td>
+                    </tr>
+                </tbody>
+            </table>
+            <br>
+            <%= f.submit '確認画面に進む', class:'btn btn-outline-success' %>
+
+        <% end %>
+
+       
+    </main>
