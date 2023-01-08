@@ -73,12 +73,14 @@
                       <p>銀行振込</p>
                   <% end %>
               </td>
-              <%= form_with model:@order, url:admin_order_path(@order.id), method: :patch do |f| %>
               <td style="-ms-writing-mode:lr-tb;writing-mode:horizontal-tb;">
-                <%= f.select :order_status, [['入金待ち',1],['入金確認',2],['製作中',3],['発送中',4],['発送済',5]] %>
+              <%= form_with model:@order, url:admin_order_path(@order.id), method: :patch do |f| %>
+
+                <%= f.select :order_status, Order.order_statuses_i18n.invert %>
                 <%= f.submit '更新', class:'btn btn-outline-success' %>
-              </td>
               <% end %>
+
+              </td>
             </tr>
           </tbody>
          </table>
@@ -102,7 +104,7 @@
                 <td style="width:100px;"><%= order_item.item.with_tax_price * order_item.amount %></td>
                 <td style="width:150px;">
                   <%= form_with model:@order_items, url:admin_order_path(order_item.id), method: :patch do |f| %>
-                    <%= f.select :made_status, [['製作不可',1],['製作待ち',2],['製作中',3],['製作完了',4]] %>
+                    <%= f.select :made_status, OrderItem.made_statuses_i18n.invert %>
                     <%= f.submit '更新', class:'btn btn-outline-success', style:'margin-top:5px;' %>
                   <% end %>
                 </td>

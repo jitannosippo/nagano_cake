@@ -1,7 +1,7 @@
 class Admin::OrderItemsController < ApplicationController
     def update
          order_item = OrderItem.find(params[:id])
-         order_item.update(order_item_params)
+         order_item.update(made_status:params[:order_item][:made_status].to_i)
          redirect_to admin_orders_path(params[:id])
     end
     

@@ -6,8 +6,8 @@ class Admin::OrdersController < ApplicationController
   
   def update
     order = Order.find(params[:id])
-    order.update(order_params)
-    redirect_to admin_orders_path(params[:id])
+    order.update(order_status:params[:order][:order_status].to_i)
+    redirect_to admin_order_path(params[:id])
   end
 
   private
